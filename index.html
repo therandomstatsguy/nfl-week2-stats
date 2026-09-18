@@ -3722,9 +3722,18 @@ ReactDOM.createRoot(document.getElementById('root')).render(html`<${App}/>`);
       if (opener) opener.click();
     }
     whenReady('.gbtn', function () {
-      var b = document.querySelectorAll('.gbtn')[idx];
-      if (b && !isOn(b)) b.click();
-      setTimeout(function () { done && done(); }, 300);
+      (function attempt(n) {
+        var list = document.querySelectorAll('.gbtn');
+        var b = list[idx];
+        if (!b) return done && done();
+        if (isOn(b) || n >= 6) return setTimeout(function () { done && done(); }, 300);
+        b.click();
+        setTimeout(function () {
+          var now = document.querySelectorAll('.gbtn')[idx];
+          if (now && isOn(now)) return setTimeout(function () { done && done(); }, 300);
+          attempt(n + 1);
+        }, 180 + n * 120);
+      })(0);
     });
   }
   function openPlayer(name) {
