@@ -2558,7 +2558,7 @@ function FactorRow({label, desc, hr, mode, rows, sk, tab, ptdMap, base, poShow, 
         ${cols.map((cc,j)=>html`<td key=${j} className="num">${cc[1](r)}</td>`)}
       </tr>`;})}</tbody></table></div>`:''}
     ${open&&mode==='pool'&&isTD?html`<div className="fr-log"><table className="logtbl cfb wide"><thead><tr><th>Sea</th><th className="c-nm">Player</th><th>${showTeam?'Team':'Opp'}</th><th className="sel">${selHd}</th>${tdCols.map((c,i)=>html`<th key=${i}>${c.h}</th>`)}</tr></thead>
-      <tbody>${[...rows].sort((a,b)=>{const da=String(a[PI.date]),db=String(b[PI.date]);if(da!==db)return da>db?-1:1;return (b[PI.std]||0)-(a[PI.std]||0);}).slice(0,120).map((r,i)=>{const gv=r[PI.std];const hit=poolThr!=null?gv>=poolThr:false;const yr=+String(r[PI.date]).slice(0,4);const g=ptdRowFor(r[PI.pid],yr,r[PI.wk]);return html`<tr key=${i}>
+      <tbody>${[...rows].sort((a,b)=>{const da=String(a[PI.date]),db=String(b[PI.date]);if(da!==db)return da>db?-1:1;return (b[PI.std]||0)-(a[PI.std]||0);}).slice(0,120).map((r,i)=>{const gv=r[PI.std];const hit=poolThr!=null?gv>=poolThr:false;const yr=seasonOfDate(r[PI.date]);const g=ptdRowFor(r[PI.pid],yr,r[PI.wk]);return html`<tr key=${i}>
         <td>${yr}</td><td className="c-nm">${abbrName(r[PI.name])}</td>
         <td className="c-tm">${showTeam?teamChip(r[PI.team]):teamChipFull(r[PI.opp])}</td>
         <td className="sel" style=${{color:hit?'#3ddc84':'#ff6b81'}}>${gv}</td>
@@ -2566,7 +2566,7 @@ function FactorRow({label, desc, hr, mode, rows, sk, tab, ptdMap, base, poShow, 
       </tr>`;})}</tbody></table></div>`:''}
     ${open&&mode==='pool'&&!isTD?html`<div className="fr-log"><table className="logtbl cfb wide"><thead><tr><th>Sea</th><th className="c-nm">Player</th><th>${showTeam?'Team':'Opp'}</th><th className="sel">${selHd}</th>${cols.map((c,i)=>html`<th key=${i}>${c[0]}</th>`)}</tr></thead>
       <tbody>${[...rows].sort((a,b)=>{const da=String(a[PI.date]),db=String(b[PI.date]);if(da!==db)return da>db?-1:1;return (STATS[sk].pget(b)||0)-(STATS[sk].pget(a)||0);}).slice(0,120).map((r,i)=>{const gv=STATS[sk].pget(r);const hit=poolThr!=null?gv>=poolThr:false;return html`<tr key=${i}>
-        <td>${String(r[PI.date]).slice(0,4)}</td><td className="c-nm">${abbrName(r[PI.name])}</td>
+        <td>${seasonOfDate(r[PI.date])}</td><td className="c-nm">${abbrName(r[PI.name])}</td>
         <td className="c-tm">${showTeam?teamChip(r[PI.team]):teamChipFull(r[PI.opp])}</td>
         <td className="sel" style=${{color:hit?'#3ddc84':'#ff6b81'}}>${gv}</td>
         ${cols.map((cc,j)=>html`<td key=${j}>${cc[1](r)}</td>`)}
